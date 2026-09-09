@@ -5,25 +5,21 @@ Description:
 This program blinks an LED connected to GPIO32 with a
 time interval. It uses standard output configurations 
 and precise delay timing to cycle through three 
-distinct lighting animation patterns control by a
-switch.
+distinct lighting animation patterns continuously in a 
+loop.
 
 Designer Engineer:
 Ebio, Ann Clarise
 Jaena, Elaiza B.
 
 Date:
-Sept. 09, 2026
+Sept. 02, 2026
 ======================================================*/
-const int SW1 = 34;
-const int SW2 = 35;
 
+// ESP32 GPIO Pins
 const int LEDS[] = {32, 33, 25, 0, 2, 15};
 const int NUM_PINS = sizeof(LEDS) / sizeof(LEDS[0]);
-const int DELAY_TIME = 200;
-
-int SW1_state = 0;
-int SW2_state = 0;
+const int DELAY_TIME = 500;
 
 #include "LED_Modes.h"
 
@@ -31,29 +27,15 @@ void setup() {
   for (int i = 0; i < NUM_PINS; i++) {
     pinMode(LEDS[i], OUTPUT);
   }
-
-  pinMode(SW1, INPUT_PULLDOWN);
-  pinMode(SW2, INPUT_PULLDOWN);
 }
 
 void loop() {
-  SW1_state = digitalRead(SW1);
-  SW2_state = digitalRead(SW2);
+  blink();
+  alt();
+  run();
 
-  off();
-
-  if (SW1_state == 0 && SW2_state == 0) {
-    off();
-  } else if (SW1_state == 0 && SW2_state == 1) {
-    blink();
-  } else if (SW1_state == 1 && SW2_state == 0) {
-    alt();
-  } else if (SW1_state == 1 && SW2_state == 1) {
-    run();
-  }
+  delay(500); // Wait 1 second before restarting loop
 }
 
-Led_Modes.h
-
-
+LED_Modes.h
 
